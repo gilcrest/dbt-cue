@@ -1,0 +1,16 @@
+version: 2
+sources:
+  - name: stripe
+    description: Output from Stripe APIs
+    database: dbt-tutorial
+    schema: stripe
+    tables:
+      - name: payment
+        description: Stripe Payments table based on API response
+  - name: jaffle_shop
+    description: Jaffle Shop is the testing source for dbt
+    database: dbt-tutorial
+    schema: jaffle_shop
+    tables:
+      - name: customers
+      - name: orders
