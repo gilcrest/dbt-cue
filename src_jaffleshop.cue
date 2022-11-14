@@ -12,7 +12,7 @@ _jaffleShop: #Source & {
 		schema:     false
 		identifier: false
 	}
-	tables: [ _jaffleOrderTable, _jaffleCustomerTable]
+	tables: [_jaffleOrderTable, _jaffleCustomerTable]
 }
 
 _jaffleOrderTable: #Table & {
