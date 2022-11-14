@@ -58,13 +58,15 @@ _jaffleCustomerTable: #Table & {
 
 ## File Generation
 
-The CUE cli is used to **vet** (validate the data against the schema), **fmt** (format - which nicely standardizes are input files) and finally **export** the data to the named file. I provided 2 different sample bash scripts that you can use to generate output or input the commands yourself.
+The CUE cli is used to **vet** (validate the data against the schema), **fmt** (format - which nicely standardizes are input files) and finally **export** the data to the named file. CUE works with the concept of packages, so you can merge multiple files together. As noted before, I put my general types and values in the `schema.cue` file and implement those types and values in a separate file (in this case `src_jaffleshop.cue`). I provided 2 different sample bash scripts that you can use to generate output or input the commands yourself.
 
 ```bash
 cue vet schema.cue src_jaffleshop.cue
 cue fmt schema.cue src_jaffleshop.cue
 cue export schema.cue src_jaffleshop.cue --force --out yaml --outfile _jaffle_shop__sources.yml
 ```
+
+> For each command (vet, fmt, export) I am passing the list of files to be used when generating the output. --out is what type of output (yaml, json, etc.) The --outfile is what we want to name our output file.
 
 ## Output
 
