@@ -6,6 +6,10 @@ Generate dbt yml files using the CUE language
 
 I personally don't love YAML and find it error prone. I use the CUE language to generate and validate all YAML files for just about everything I do at this point (Kubernetes, config, etc.) This repo demonstrates using the [CUE language](https://cuelang.org/) to generate [dbt](https://docs.getdbt.com/reference/source-properties) YAML files. There are a lot more checks to be added and you can easily clone and add your own validations as well, but this is a start.
 
+## Minimum Requirements
+
+- [CUE cli](https://github.com/cue-lang/cue#download-and-install)
+
 ## Getting Started
 
 The [schema.cue](https://github.com/gilcrest/dbt-cue/blob/main/schema.cue) file defines the [types and values](https://cuetorials.com/overview/types-and-values/) that are used to build the dbt yaml files. For now, I've only worked through building the [Source](https://docs.getdbt.com/reference/source-properties) yaml file. I will add more later. The `schema.cue` file is for shared type and value definitions only and should not be edited.
