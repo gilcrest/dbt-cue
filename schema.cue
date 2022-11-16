@@ -74,12 +74,17 @@ _standardFreshnessAlert: #Freshness & {
 	tags?: [...string]
 }
 
-#GenericTest: "unique" | "not_null" | #AcceptedValues
+#GenericTest: "unique" | "not_null" | #AcceptedValues | #Relationship
 
 #AcceptedValues: {
-	accepted_values: #ValueList
+	accepted_values: {
+		values: [...]
+	}
 }
 
-#ValueList: {
-	values: [...]
+#Relationship: {
+	relationships: {
+		to:    string
+		field: string
+	}
 }

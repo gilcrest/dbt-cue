@@ -34,6 +34,11 @@ sources:
           - name: price_in_usd
             tests:
               - not_null
+          - name: customer_id
+            tests:
+              - relationships:
+                  to: ref('customers')
+                  field: id
       - name: customers
         quoting:
           identifier: true

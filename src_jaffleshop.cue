@@ -27,7 +27,7 @@ _jaffleOrderTable: #Table & {
 		#Column & {
 			name: "status"
 			tests: [#AcceptedValues & {
-				accepted_values: #ValueList & {
+				accepted_values: {
 					values: ["placed", "shipped", "completed", "returned"]
 				}
 			}]
@@ -35,6 +35,17 @@ _jaffleOrderTable: #Table & {
 		#Column & {
 			name: "price_in_usd"
 			tests: ["not_null"]
+		},
+		#Column & {
+			name: "customer_id"
+			tests: [
+				#Relationship & {
+					relationships: {
+						to:    "ref('customers')"
+						field: "id"
+					}
+				},
+			]
 		},
 	]
 }
