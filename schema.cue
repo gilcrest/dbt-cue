@@ -81,5 +81,5 @@ _standardFreshnessAlert: #Freshness & {
 }
 
 #ValueList: {
-	values: [...string]
+	values: [...]
 }
