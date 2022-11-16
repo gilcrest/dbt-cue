@@ -20,41 +20,49 @@ User input goes into a `src_` file (though the name doesn't matter), where the v
 sources: #sourceList & [_jaffleShop]
 
 _jaffleShop: #Source & {
-    name:        "jaffle_shop"
-    description: "Jaffle Shop is the testing source for dbt"
-    database:    "dbt-tutorial"
-    schema:      "jaffle_shop"
-    meta: [{"contains_pii": true, "owner": "@alice"}]
-    tags: ["ecom", "pii"]
-    quoting: #Quoting & {
-        database:   false
-        schema:     false
-        identifier: false
-    }
-    tables: [ _jaffleOrderTable, _jaffleCustomerTable]
+  name:        "jaffle_shop"
+  description: "Jaffle Shop is the testing source for dbt"
+  database:    "dbt-tutorial"
+  schema:      "jaffle_shop"
+  meta: [{"contains_pii": true, "owner": "@alice"}]
+  tags: ["ecom", "pii"]
+  quoting: #Quoting & {
+    database:   false
+    schema:     false
+    identifier: false
+  }
+  tables: [_jaffleOrderTable, _jaffleCustomerTable]
 }
 
 _jaffleOrderTable: #Table & {
-    name:            "orders"
-    identifier:      "Orders_"
-    loaded_at_field: "updated_at"
-    columns: [
-        #Column & {
-            name: "id"
-            tests: ["unique", "not_null"]
-        },
-        #Column & {
-            name: "price_in_usd"
-            tests: ["not_null"]
-        },
-    ]
+  name:            "orders"
+  identifier:      "Orders_"
+  loaded_at_field: "updated_at"
+  columns: [
+    #Column & {
+      name: "id"
+      tests: ["unique", "not_null"]
+    },
+    #Column & {
+      name: "status"
+      tests: [#AcceptedValues & {
+        accepted_values: #ValueList & {
+          values: ["placed", "shipped", "completed", "returned"]
+        }
+      }]
+    },
+    #Column & {
+      name: "price_in_usd"
+      tests: ["not_null"]
+    },
+  ]
 }
 
 _jaffleCustomerTable: #Table & {
-    name:    "customers"
-    quoting: #Quoting & {
-        identifier: true
-    }
+  name:    "customers"
+  quoting: #Quoting & {
+    identifier: true
+  }
 }
 ```
 
@@ -76,7 +84,7 @@ I provided 2 different sample bash scripts (`run_jaffleshop.sh` and `run_stripe.
 
 ## Output
 
-The below output is from CUE, you'll find it basically a match (minus spaces) for the [Source example](https://docs.getdbt.com/reference/source-properties#example).
+The below output is from CUE, you'll find it basically a match (minus spaces) of the [Source example](https://docs.getdbt.com/reference/source-properties#example). I have added some additional examples beyond the example to demonstrate things like using `accepted_values` tests, etc.
 
 ```yml
 version: 2
@@ -104,6 +112,14 @@ sources:
             tests:
               - unique
               - not_null
+          - name: status
+            tests:
+              - accepted_values:
+                  values:
+                    - placed
+                    - shipped
+                    - completed
+                    - returned
           - name: price_in_usd
             tests:
               - not_null
