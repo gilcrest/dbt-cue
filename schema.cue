@@ -56,7 +56,7 @@ _standardFreshnessAlert: #Freshness & {
 	meta?: [...]      // {<dictionary>}
 	identifier?:      string // <table_name>
 	loaded_at_field?: string // <column_name>
-	tests?: [...#BasicTest]
+	tests?: [...#GenericTest]
 	tags?: [...string]
 	freshness?: #Freshness
 	quoting?:   #Quoting
@@ -70,8 +70,16 @@ _standardFreshnessAlert: #Freshness & {
 	description?: string // <markdown_string>
 	meta?: [...] // {<dictionary>}
 	quote?:      bool
-	tests?: [...#BasicTest]
+	tests?: [...#GenericTest]
 	tags?: [...string]
 }
 
-#BasicTest: "unique" | "not_null"
+#GenericTest: "unique" | "not_null" | #AcceptedValues
+
+#AcceptedValues: {
+	accepted_values: #ValueList
+}
+
+#ValueList: {
+	values: [...string]
+}

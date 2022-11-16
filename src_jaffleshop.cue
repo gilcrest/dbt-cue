@@ -25,6 +25,14 @@ _jaffleOrderTable: #Table & {
 			tests: ["unique", "not_null"]
 		},
 		#Column & {
+			name: "status"
+			tests: [#AcceptedValues & {
+				accepted_values: #ValueList & {
+					values: ["placed", "shipped", "completed", "returned"]
+				}
+			}]
+		},
+		#Column & {
 			name: "price_in_usd"
 			tests: ["not_null"]
 		},
