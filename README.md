@@ -46,7 +46,7 @@ _jaffleOrderTable: #Table & {
     #Column & {
       name: "status"
       tests: [#AcceptedValues & {
-        accepted_values: #ValueList & {
+        accepted_values: {
           values: ["placed", "shipped", "completed", "returned"]
         }
       }]
@@ -54,6 +54,17 @@ _jaffleOrderTable: #Table & {
     #Column & {
       name: "price_in_usd"
       tests: ["not_null"]
+    },
+    #Column & {
+      name: "customer_id"
+      tests: [
+        #Relationship & {
+          relationships: {
+            to:    "ref('customers')"
+            field: "id"
+          }
+        },
+      ]
     },
   ]
 }
@@ -64,6 +75,7 @@ _jaffleCustomerTable: #Table & {
     identifier: true
   }
 }
+
 ```
 
 > Creating CUE values reads well as it is a superset of JSON. Here we are creating a _jaffleShop value, which is a dbt Source (see `schema.cue`) for the #Source definition. We can add whatever key value pairs we like as meta, any list of strings for tags, etc. For more complex structures like a `table` or `quoting`, we use CUE [definitions](https://cuetorials.com/overview/types-and-values/#definitions), there are examples here of creating them inline as well as separate entities.
@@ -123,6 +135,11 @@ sources:
           - name: price_in_usd
             tests:
               - not_null
+          - name: customer_id
+            tests:
+              - relationships:
+                  to: ref('customers')
+                  field: id
       - name: customers
         quoting:
           identifier: true
