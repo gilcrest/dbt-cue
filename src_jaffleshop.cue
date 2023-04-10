@@ -1,3 +1,5 @@
+version: 2
+
 sources: #sourceList & [_jaffleShop]
 
 _jaffleShop: #Source & {

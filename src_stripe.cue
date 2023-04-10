@@ -1,3 +1,5 @@
+version: 2
+
 sources: #sourceList & [_stripe]
 
 _stripe: #Source & {
