@@ -1,0 +1,20 @@
+name: jaffle_shop
+config-version: 2
+version: 0.0.1
+profile: default
+model-paths:
+  - models
+seed-paths:
+  - seeds
+test-paths:
+  - tests
+analysis-paths:
+  - analyses
+macro-paths:
+  - macros
+snapshot-paths:
+  - snapshots
+target-path: target
+clean-targets:
+  - target
+  - dbt_packages
