@@ -1,90 +1,9 @@
 package dbt
 
-#sourceList: [...#Source]
-
-#Source: {
-	name:             string // required
-	description?:     string // <markdown_string>
-	database?:        string // <database_name>
-	schema?:          string // <schema_name>
-	loader?:          string // <string>
-	loaded_at_field?: string // <column_name>
-	meta?: [...]
-	tags?: [...string]
-	config?:    "to_be_built"
-	overrides?: string
-	freshness?: #Freshness
-	quoting?:   #Quoting
-	tables?: [...#Table]
-}
-
 #Quoting: {
 	database?:   bool
 	schema?:     bool
 	identifier?: bool
-}
-
-#Freshness: {
-	warn_after?:  #AlertConfig
-	error_after?: #AlertConfig
-	filter?:      string // <where-condition>
-}
-
-_standardFreshnessAlert: #Freshness & {
-	warn_after: #AlertConfig & {
-		count:  12
-		period: "hour"
-	}
-	error_after: #AlertConfig & {
-		count:  24
-		period: "hour"
-	}
-}
-
-#AlertConfig: {
-	count:  int
-	period: #Period
-}
-
-#Period: "minute" | "hour" | "day"
-
-#Table: {
-	name:         !=""   // must be specified and non-empty
-	description?: string // <markdown_string>
-	meta?: [...]      // {<dictionary>}
-	identifier?:      string // <table_name>
-	loaded_at_field?: string // <column_name>
-	tests?: [...#GenericTest]
-	tags?: [...string]
-	freshness?: #Freshness
-	quoting?:   #Quoting
-	external?: [...] // {<dictionary>}
-	columns?: [...#Column]
-
-}
-
-#Column: {
-	name:         string // <column_name> # required
-	description?: string // <markdown_string>
-	meta?: [...] // {<dictionary>}
-	quote?:      bool
-	tests?: [...#GenericTest]
-	tags?: [...string]
-}
-
-#GenericTest: "unique" | "not_null" | #AcceptedValues | #Relationship
-
-#AcceptedValues: {
-	accepted_values: {
-		values: [...]
-	}
-}
-
-#Relationship: {
-	relationships: {
-		to:    string
-		field: string
-	}
 }
 
 #Project: {
@@ -166,4 +85,75 @@ _standardFreshnessAlert: #Freshness & {
 	// identifiers that are case sensitive, reserved words, or contain special characters, but
 	// we recommend you avoid this as much as possible.
 	quoting?: #Quoting
+}
+
+#ProfileConfig: {
+	send_anonymous_usage_stats?: bool
+	use_colors?:                 bool
+	partial_parse?:              bool
+	printer_width?:              int
+	write_json?:                 bool
+	warn_error?:                 bool
+	warn_error_options?:         "TODO" // <include: all | include: [<error-name>] | include: all, exclude: [<error-name>]>
+	log_format?:                 "text" | "json" | "default"
+	debug?:                      bool
+	version_check?:              bool
+	fail_fast?:                  bool
+	use_experimental_parser?:    bool
+	static_parser?:              bool
+}
+
+#SnowflakeProfile: {
+	// default target
+	target: string
+	outputs: [...]
+}
+
+#SSOTarget: {
+	"sso": {
+		#SnowflakeSSOAuthenticationTargetDetail
+	}
+}
+
+#SnowflakeKeyPairAuthenticationTargetDetail: {
+	type:                      "snowflake"
+	account:                   string // account id
+	user:                      string // username
+	role:                      string // user role
+	private_key_path:          string // path/to/private.key
+	private_key_passphrase:    string // passphrase for the private key, if key is encrypted
+	database:                  string // database name
+	warehouse:                 string // warehouse name
+	schema:                    string // dbt schema
+	threads:                   int    // 1 or more
+	client_session_keep_alive: bool
+	query_tag:                 string
+
+	// optional
+	connect_retries?:          int  // default 0
+	connect_timeout?:          int  // default 10
+	retry_on_database_errors?: bool // default false
+	retry_all?:                bool //default false
+	reuse_connections?:        bool // default false
+}
+
+#SnowflakeSSOAuthenticationTargetDetail: {
+	type:                      "snowflake"
+	account:                   string            // account id
+	user:                      string            // username
+	role:                      string            // user role
+	authenticator:             "externalbrowser" // path/to/private.key
+	database:                  string            // database name
+	warehouse:                 string            // warehouse name
+	schema:                    string            // schema dbt objects are built in
+	threads:                   int               // 1 or more
+	client_session_keep_alive: bool
+	query_tag:                 string
+
+	// optional
+	connect_retries?:          int  // default 0
+	connect_timeout?:          int  // default 10
+	retry_on_database_errors?: bool // default false
+	retry_all?:                bool //default false
+	reuse_connections?:        bool // default false
 }

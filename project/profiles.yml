@@ -1,0 +1,41 @@
+config:
+  send_anonymous_usage_stats: false
+  use_colors: true
+  partial_parse: false
+  printer_width: 80
+  write_json: false
+  warn_error: false
+  log_format: default
+  debug: false
+  version_check: false
+  fail_fast: false
+  use_experimental_parser: false
+  static_parser: false
+my-snowflake-db:
+  target: dev
+  outputs:
+    - dev:
+        type: snowflake
+        account: jaffle
+        user: johnnyAdmin
+        role: admin
+        private_key_path: path/to/private.key
+        private_key_passphrase: superSecretPassPhrase
+        database: somedb
+        warehouse: xs_warehouse
+        schema: dev_schema
+        threads: 1
+        client_session_keep_alive: false
+        query_tag: querytag?
+    - sso:
+        type: snowflake
+        account: jaffle
+        user: johnnyLocal
+        role: lessThanAdmin
+        authenticator: externalbrowser
+        database: somedb
+        warehouse: xs_warehouse
+        schema: dev_schema
+        threads: 1
+        client_session_keep_alive: false
+        query_tag: querytag?
